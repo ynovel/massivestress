@@ -1,0 +1,10 @@
+.idea
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+/keys/provisioning_key
+/keys/provisioning_key.pub
+terraform.tfvars
+/resources/resources.txt

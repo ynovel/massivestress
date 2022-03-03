@@ -1,0 +1,6 @@
+runner_resources_url = "https://localhost/resources.txt"
+runner_bombardier_connections_per_resource = 500
+runner_bombardier_duration = "720h"
+instance_count = 1
+instance_region = "fra1"
+instance_type = "s-1vcpu-1gb"
