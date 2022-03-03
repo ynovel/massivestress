@@ -81,13 +81,17 @@ terraform init
 Configuration options (set in terraform.tfstate):
 * instance_count - cound of droplets to be running
 * instance_region - default is Frankfurt
-* instance_type - default is the cheapest droplet type/size "s-1vcpu-1gb" with 1 CPU and 1GB RAM  
+* instance_type - default is the cheapest droplet type/size "s-1vcpu-1gb" with 1 CPU and 1GB RAM
+### AWS
+todo
 ## Runners
 ### alpine/bombardier
 This is default runner.
 Configuration options (set in terraform.tfstate):
 * runner_bombardier_connections_per_resource
 * runner_bombardier_duration
+### mhddos and others
+todo
 ## Resources
 Resources is a text file containing tested URLs one per line. Example:
 ```text
