@@ -1,5 +1,5 @@
-# Massive Stress
-Multi-Cloud Multi-Runner Stress Test Tool.
+# Massive Stress Framework
+Multi-Cloud Multi-Runner Stress Test Framework.
 
 This tool is created for purpose of convenient stress testing to measure performance and reliability of systems.
 
