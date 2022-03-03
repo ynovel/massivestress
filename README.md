@@ -9,16 +9,48 @@ The idea is to have flexibility to choose any combination of:
 * **Resources** list - choose what is more convenient for your type of deployment: remote dedicated source or local file.
 
 All parameters such as instances count, connections counts could be **configured**.
-## Installation
+
+## Quick Setup & Run
+[Istall Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli#install-terraform).
+```shell
+cd keys
+/bin/sh gen_ssh_keys.sh
+export DIGITALOCEAN_ACCESS_TOKEN="<CHANGE TO YOUR PERSONAL ACCESS TOKEN>"
+cd ../terraform/digital_ocean
+terraform init
+echo -e 'runner_resources_url = "<CHANGE TO URL WITH RESOURCES FILE, WHICH IS TEXT WITH ONE TESTED URL PER LINE>"
+runner_bombardier_connections_per_resource = 500
+instance_count = 3
+instance_region = "fra1"
+instance_type = "s-1vcpu-1gb"
+runner_bombardier_duration = "720h"
+' > terraform.tfstate
+terraform apply # type "yes"
+```
+
+More detailed setup instructions below:
+
+## Install Terraform
 This tool is working on cloud infrastructures, which are setup and provisioned with Terraform.
+
 Parameters could be changed from defaults and configured via terraform.tfvars.
 
+[Official installation instructions](https://learn.hashicorp.com/tutorials/terraform/install-cli#install-terraform).
 
 ### Mac
 ```shell
 brew tap hashicorp/tap
 brew install hashicorp/tap/terraform
 ```
+### Ubuntu
+```shell
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt-get update && sudo apt-get install terraform
+```
+### Other
+[Find instructions on official website](https://learn.hashicorp.com/tutorials/terraform/install-cli#install-terraform).
 ## Provisioning keys
 You also need ssh key pair for provisioning.
 
@@ -42,7 +74,7 @@ cp terraform.tfvars.dist terraform.tfvars
 You have to generate access token and set it to local env variable.
 After that go to terraform/digital_ocean directory and init provider.
 ```shell
-export DIGITALOCEAN_ACCESS_TOKEN="your_personal_access_token"
+export DIGITALOCEAN_ACCESS_TOKEN="<CHANGE TO YOUR PERSONAL ACCESS TOKEN>"
 cd terraform/digital_ocean
 terraform init
 ```
@@ -57,7 +89,15 @@ Configuration options (set in terraform.tfstate):
 * runner_bombardier_connections_per_resource
 * runner_bombardier_duration
 ## Resources
+Resources is a text file containing tested URLs one per line. Example:
+```text
+http://localhost
+https://127.0.0.1
+```
 ### Remote
+Resources list is located on remote machine and is loaded once instance is provisioned.
+Each instance/droplet recreation will re-download resources file.
+
 Configuration_options:
 * runner_resources_url
 ### Local
@@ -77,6 +117,8 @@ terraform destroy
 terraform apply
 # type "yes"
 ```
+Be aware: instance recreation may affect it's IP changing.
+
 For some configuration changes (not regarding runners/inside-instance-provisioning) you need only apply them:
 ```shell
 terraform apply
