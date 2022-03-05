@@ -43,6 +43,11 @@ resource "digitalocean_droplet" "runner" {
     destination = "runner_bombardier.sh"
   }
 
+  provisioner "file" {
+    source = "../script/show_resources_availability.sh"
+    destination = "show_resources_availability.sh"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "/bin/sh install_dependencies.sh",
