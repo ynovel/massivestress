@@ -1,3 +1,4 @@
+runner_resources_mode_is_remote = true
 runner_resources_url = "https://localhost/resources.txt"
 runner_bombardier_connections_per_resource = 500
 runner_bombardier_duration = "720h"

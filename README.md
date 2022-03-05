@@ -102,10 +102,15 @@ https://127.0.0.1
 Resources list is located on remote machine and is loaded once instance is provisioned.
 Each instance/droplet recreation will re-download resources file.
 
-Configuration_options:
+Configuration options:
 * runner_resources_url
 ### Local
-todo
+Place resources/resources.txt locally.
+
+Change configuration option:
+* runner_resources_mode_is_remote = false
+
+You don't need to specify runner_resources_url anymore.
 
 ## Running
 When everything is configured go to appropriate cloud directory and deploy infrastructure with runners, for example:

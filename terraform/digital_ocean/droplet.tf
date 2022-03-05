@@ -18,19 +18,25 @@ resource "digitalocean_droplet" "runner" {
   }
 
   provisioner "file" {
-    content = templatefile("script/install_dependencies.tpl.sh", {})
+    content = templatefile("../script/install_dependencies.tpl.sh", {})
     destination = "install_dependencies.sh"
   }
 
   provisioner "file" {
-    content = templatefile("script/resources_remote.tpl.sh", {
+    content = templatefile("../script/resources.tpl.sh", {
+      "is_remote" = var.runner_resources_mode_is_remote
       "resources_url" = var.runner_resources_url
     })
-    destination = "resources_remote.sh"
+    destination = "resources.sh"
   }
 
   provisioner "file" {
-    content = templatefile("script/runner_bombardier.tpl.sh", {
+    source = "../../resources"
+    destination = "/tmp"
+  }
+
+  provisioner "file" {
+    content = templatefile("../script/runner_bombardier.tpl.sh", {
       "connections_per_resource" = var.runner_bombardier_connections_per_resource
       "duration" = var.runner_bombardier_duration
     })
@@ -40,7 +46,7 @@ resource "digitalocean_droplet" "runner" {
   provisioner "remote-exec" {
     inline = [
       "/bin/sh install_dependencies.sh",
-      "/bin/sh resources_remote.sh",
+      "/bin/sh resources.sh",
       "/bin/bash runner_bombardier.sh",
     ]
   }
