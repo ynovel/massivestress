@@ -7,7 +7,7 @@ do
   export URL=$i
   export RES=$(curl -IsS -m 2 $URL 2>&1 | head -n 1)
   if grep -w "200\|301" <<< "$RES" ; then
-    echo "LETS DO IT"
+    echo "AVAILABLE"
   else
     echo $RES
     echo "SKIPPED"
