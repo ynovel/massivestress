@@ -24,7 +24,7 @@ instance_count = 3
 instance_region = "fra1"
 instance_type = "s-1vcpu-1gb"
 runner_bombardier_duration = "720h"
-' > terraform.tfstate
+' > terraform.tfvars
 terraform apply # type "yes"
 ```
 
@@ -78,7 +78,7 @@ export DIGITALOCEAN_ACCESS_TOKEN="<CHANGE TO YOUR PERSONAL ACCESS TOKEN>"
 cd terraform/digital_ocean
 terraform init
 ```
-Configuration options (set in terraform.tfstate):
+Configuration options (set in terraform.tfvars):
 * instance_count - cound of droplets to be running
 * instance_region - default is Frankfurt
 * instance_type - default is the cheapest droplet type/size "s-1vcpu-1gb" with 1 CPU and 1GB RAM
@@ -87,7 +87,7 @@ todo
 ## Runners
 ### alpine/bombardier
 This is default runner.
-Configuration options (set in terraform.tfstate):
+Configuration options (set in terraform.tfvars):
 * runner_bombardier_connections_per_resource
 * runner_bombardier_duration
 ### mhddos and others
