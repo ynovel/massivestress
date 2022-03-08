@@ -1,15 +1,41 @@
-resource "digitalocean_droplet" "runner" {
+resource "google_compute_address" "runner" {
   count = var.instance_count
-  image = "ubuntu-20-04-x64"
+  name = "runner-address-${count.index}"
+  address_type = ""
+}
+
+resource "google_compute_instance" "runner" {
+  count = var.instance_count
   name = "runner-${count.index}"
-  region = var.instance_region
-  size = var.instance_type
-  ssh_keys = [
-    digitalocean_ssh_key.runner.fingerprint
-  ]
+  machine_type = var.instance_type
+  zone = var.instance_az
+  boot_disk {
+    initialize_params {
+      #image = "ubuntu-os-cloud/ubuntu-2004-lts" #image list: https://cloud.google.com/compute/docs/images/os-details
+      image = "debian-cloud/debian-11"
+      #size = 50
+    }
+  }
+  network_interface {
+    network = "default"
+    access_config {
+      nat_ip = google_compute_address.runner[count.index].address
+    }
+  }
+
+  metadata = {
+    ssh-keys = "root:${file(var.provisioning_ssh_public_key_path)}"
+  }
+
+  #metadata_startup_script = ""
+
+#  service_account {
+#    scopes = ["userinfo-email", "compute-ro", "storage-ro"]
+#  }
 
   connection {
-    host = self.ipv4_address
+    host = self.network_interface.0.access_config.0.nat_ip
+    #host = self.hostname
     user = "root"
     type = "ssh"
 
@@ -61,14 +87,14 @@ variable "instance_count" {
   default = 1
 }
 
-variable "instance_region" {
-  default = "fra1"
+variable "instance_az" {
+  default = "europe-north1-b"
 }
 
 variable "instance_type" {
-  default = "s-1vcpu-1gb"
+  default = "e2-micro" #2 vCPU, 1GB
 }
 
 output "instance_ip" {
-  value = digitalocean_droplet.runner.*.ipv4_address
+  value = google_compute_address.runner.*.address
 }

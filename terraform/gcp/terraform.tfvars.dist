@@ -1,0 +1,9 @@
+instance_project = "not-defined"
+runner_resources_mode_is_remote = true
+runner_resources_url = "http://localhost/resources.txt"
+runner_bombardier_connections_per_resource = 500
+runner_bombardier_duration = "720h"
+instance_count = 1
+instance_region = "europe-north1"
+instance_az = "europe-north1-a"
+instance_type = "e2-standard-2"
